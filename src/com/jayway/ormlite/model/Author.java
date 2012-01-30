@@ -16,17 +16,23 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "author")
 public class Author {
 
-	@DatabaseField(id = true)
+	@DatabaseField(generatedId=true)
+	private int id;
+	
+	@DatabaseField()
 	private String name;
+	
 	@DatabaseField(canBeNull = true)
 	private int birthday;
+	
 	@ForeignCollectionField
 	private ForeignCollection<Book> books;
 
 	/**
 	 * 
 	 */
-	public Author() {
+	@SuppressWarnings("unused")
+	private Author() {
 
 	}
 
@@ -35,6 +41,13 @@ public class Author {
 	 */
 	public Author(String name){
 		this.name = name;
+	}
+	
+	/**
+	 * @return the id
+	 */
+	public int getId() {
+		return id;
 	}
 
 	/**

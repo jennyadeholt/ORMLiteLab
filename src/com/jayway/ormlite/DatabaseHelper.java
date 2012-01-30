@@ -23,7 +23,7 @@ import com.jayway.ormlite.model.Book;
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
 	private static final String DATABASE_NAME = "ormlitelab.db";
-	private static final int DATABASE_VERSION = 3;
+	private static final int DATABASE_VERSION = 4;
 	private RuntimeExceptionDao<Author, Integer> authorDao = null;
 	private RuntimeExceptionDao<Book, Integer> bookDao = null;
 

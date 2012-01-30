@@ -22,16 +22,21 @@ import com.jayway.ormlite.model.Book;
  */
 public class AuthorList extends OrmLiteBaseListActivity<DatabaseHelper> {
 
+	private BookStoreRepository repo;
+
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.author_list_view);
 
+		repo = new BookStoreRepository(getHelper());
 		addDatabaseContent();
 
-		Log.d("", "Items in Author database " + getHelper().getAuthorDao().queryForAll().size());
-		Log.d("", "Items in Book database " + getHelper().getBookDao().queryForAll().size());
+		Log.d("", "Items in Author database "
+				+ getHelper().getAuthorDao().queryForAll().size());
+		Log.d("", "Items in Book database "
+				+ getHelper().getBookDao().queryForAll().size());
 
 		updateListAdapter();
 
@@ -40,7 +45,7 @@ public class AuthorList extends OrmLiteBaseListActivity<DatabaseHelper> {
 			public void onClick(View v) {
 				EditText text = (EditText) findViewById(R.id.new_author);
 				if (!TextUtils.isEmpty(text.getText())) {
-					getHelper().getAuthorDao().createIfNotExists(new Author(text.getText().toString()));
+					repo.addAuthor(new Author(text.getText().toString()));
 					text.setText("");
 					updateListAdapter();
 				}
@@ -48,41 +53,37 @@ public class AuthorList extends OrmLiteBaseListActivity<DatabaseHelper> {
 		});
 	}
 
-
 	private void updateListAdapter() {
-		setListAdapter(new ArrayAdapter<Author>(AuthorList.this, android.R.layout.simple_list_item_1, getHelper().getAuthorDao().queryForAll()));
+		setListAdapter(new ArrayAdapter<Author>(AuthorList.this,
+				android.R.layout.simple_list_item_1, repo.getAuthors()));
 	}
 
 	private void addDatabaseContent() {
 
 		if (getHelper().getAuthorDao().queryForAll().isEmpty()) {
-			Author selma = new Author("Selma Lagerlöv");
-			getHelper().addAuthor(selma);
-			Book book = new Book("Kejsaren av Portugalien");
-			getHelper().addBook(book, selma);
+			Author author;
 
-			Author stephen = new Author("Stephen King");
-			getHelper().addAuthor(stephen);
-			book = new Book("Pestens tid");
-			getHelper().addBook(book, stephen);
+			author = new Author("Selma Lagerlöv");
+			repo.addAuthor(author);
+			repo.addBook(new Book("Kejsaren av Portugalien", author));
 
-			Author astrid = new Author("Astrid Lindgren");
-			getHelper().addAuthor(astrid);
-			book = new Book("Pippi Långstrump");
-			getHelper().addBook(book, astrid);
+			author = new Author("Stephen King");
+			repo.addAuthor(author);
+			repo.addBook(new Book("Pestens tid", author));
 
-			Author johanna = new Author("Johanna Nilsson");
-			getHelper().addAuthor(johanna);
-			book = new Book("Hon går genom tavlan ut ur bilden");
-			getHelper().addBook(book, johanna);
+			author = new Author("Astrid Lindgren");
+			repo.addAuthor(author);
+			repo.addBook(new Book("Pippi Långstrump", author));
 
-			Author harry = new Author("Harry Martinsson");
-			getHelper().addAuthor(harry);
-			book = new Book("Aniara");
-			getHelper().addBook(book, harry);
+			author = new Author("Johanna Nilsson");
+			repo.addAuthor(author);
+			repo.addBook(new Book("Hon går genom tavlan ut ur bilden", author));
+
+			author = new Author("Harry Martinsson");
+			repo.addAuthor(author);
+			repo.addBook(new Book("Aniara", author));
 		}
 	}
-
 
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
@@ -91,10 +92,11 @@ public class AuthorList extends OrmLiteBaseListActivity<DatabaseHelper> {
 
 		ForeignCollection<Book> books = author.getBooks();
 
-		Toast.makeText(this, "Books : " + books.size(), Toast.LENGTH_SHORT).show();
+		Toast.makeText(this, "Books : " + books.size(), Toast.LENGTH_SHORT)
+				.show();
 
 		Intent bookIntent = new Intent(getApplicationContext(), BookList.class);
-		bookIntent.putExtra("id", author.getName());
+		bookIntent.putExtra("id", author.getId());
 		startActivity(bookIntent);
 	}
 }

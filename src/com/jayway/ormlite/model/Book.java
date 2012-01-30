@@ -22,19 +22,21 @@ public class Book {
 	private String title;
 
 	/**
-	 * 
+	 * Used only for OrmLite
 	 */
-	public Book() {
+	@SuppressWarnings("unused")
+	private Book() {
 
 	}
 
 	/**
 	 * @param title
+	 * @param author 
 	 */
-	public Book(String title) {
+	public Book(String title, Author author) {
 		this.title = title;
+		this.author = author;
 	}
-
 
 	/**
 	 * @param author
@@ -56,7 +58,7 @@ public class Book {
 	public String getTitle() {
 		return title;
 	}
-	
+
 	/**
 	 * @return The id
 	 */

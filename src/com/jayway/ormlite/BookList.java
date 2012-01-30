@@ -1,7 +1,5 @@
 package com.jayway.ormlite;
 
-import java.util.List;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -27,16 +25,18 @@ public class BookList extends OrmLiteBaseListActivity<DatabaseHelper> {
 	private static final int DELETE_BOOK_DIALOG = 0;
 	private Author author;
 	private Book bookToDelete;
+	private BookStoreRepository repo;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.book_list_view);
+		
+		repo = new BookStoreRepository(getHelper());
 
-		String id = (String) getIntent().getExtras().get("id");
-		final List<Author> authors = getHelper().getAuthorDao().queryForEq("name", id);
-		author = authors.size() >= 1 ? authors.get(0) : new Author("Unknown");
+		int id = (Integer) getIntent().getExtras().get("id");
+		author = repo.getAuthor(id);
 		updateListAdapter();
 
 		((TextView) findViewById(R.id.author)).setText(author.getName());
@@ -46,8 +46,8 @@ public class BookList extends OrmLiteBaseListActivity<DatabaseHelper> {
 				EditText text = (EditText) findViewById(R.id.new_book);
 
 				if (!TextUtils.isEmpty(text.getText())) {
-					Book book = new Book(text.getText().toString());
-					getHelper().addBook(book, author);
+					Book book = new Book(text.getText().toString(), author);
+					repo.addBook(book);
 					text.setText("");
 					updateListAdapter();
 				}
@@ -56,7 +56,7 @@ public class BookList extends OrmLiteBaseListActivity<DatabaseHelper> {
 	}
 
 	private void updateListAdapter() {
-		setListAdapter(new ArrayAdapter<Book>(this, android.R.layout.simple_list_item_1, getHelper().getBookDao().queryForEq("author_id", author)));
+		setListAdapter(new ArrayAdapter<Object>(this, android.R.layout.simple_list_item_1, author.getBooks().toArray()));
 	}
 
 	@Override
