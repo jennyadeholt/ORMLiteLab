@@ -29,7 +29,7 @@ public class Author {
 	private ForeignCollection<Book> books;
 
 	/**
-	 * 
+	 * Only for OrmLite deserialization
 	 */
 	@SuppressWarnings("unused")
 	private Author() {
