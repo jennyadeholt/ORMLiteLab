@@ -20,13 +20,13 @@ public class BookStoreRepository {
 	public Author getAuthor(int id) {
 		return helper.getAuthorDao().queryForId(id);
 	}
+		
+	public void addAuthor(Author author) {
+		helper.getAuthorDao().createIfNotExists(author);
+	}
 	
 	public List<Book> getBooks() {
 		return helper.getBookDao().queryForAll();
-	}
-	
-	public void addAuthor(Author author) {
-		helper.getAuthorDao().createIfNotExists(author);
 	}
 	
 	public void addBook(Book book) {
