@@ -5,7 +5,6 @@ import java.util.List;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -33,11 +32,6 @@ public class AuthorListActivity extends OrmLiteBaseListActivity<DatabaseHelper> 
 
 		repo = new BookStoreRepository(getHelper());
 		addDatabaseContent();
-
-		Log.d("", "Items in Author database "
-				+ getHelper().getAuthorDao().queryForAll().size());
-		Log.d("", "Items in Book database "
-				+ getHelper().getBookDao().queryForAll().size());
 
 		updateListAdapter();
 

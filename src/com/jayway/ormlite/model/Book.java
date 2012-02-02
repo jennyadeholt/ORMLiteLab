@@ -1,33 +1,16 @@
 package com.jayway.ormlite.model;
 
-import com.j256.ormlite.field.DatabaseField;
-import com.j256.ormlite.table.DatabaseTable;
 
 /**
  * @author Jenny Nilsson, Jayway
  * 
  */
-/**
- * @author Jenny Nilsson, Jayway
- * 
- */
-@DatabaseTable(tableName = "book")
 public class Book {
 
-	@DatabaseField(foreign = true, canBeNull = true)
+	// This is a reference to the author, so it's a foreign field for the database
 	private Author author;
-	@DatabaseField(generatedId = true)
-	private int id;
-	@DatabaseField
+
 	private String title;
-
-	/**
-	 * Used only for OrmLite
-	 */
-	@SuppressWarnings("unused")
-	private Book() {
-
-	}
 
 	/**
 	 * @param title
@@ -35,13 +18,6 @@ public class Book {
 	 */
 	public Book(String title, Author author) {
 		this.title = title;
-		this.author = author;
-	}
-
-	/**
-	 * @param author
-	 */
-	public void setAuthor(Author author) {
 		this.author = author;
 	}
 
@@ -57,13 +33,6 @@ public class Book {
 	 */
 	public String getTitle() {
 		return title;
-	}
-
-	/**
-	 * @return The id
-	 */
-	public int getId() {
-		return id;
 	}
 
 	@Override

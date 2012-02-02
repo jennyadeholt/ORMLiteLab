@@ -12,7 +12,6 @@ import com.j256.ormlite.dao.RuntimeExceptionDao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import com.jayway.ormlite.model.Author;
-import com.jayway.ormlite.model.Book;
 
 /**
  * Database helper class used to manage the creation and upgrading of your
@@ -22,9 +21,9 @@ import com.jayway.ormlite.model.Book;
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
 	private static final String DATABASE_NAME = "ormlitelab.db";
-	private static final int DATABASE_VERSION = 4;
+	private static final int DATABASE_VERSION = 1;
+	
 	private RuntimeExceptionDao<Author, Integer> authorDao = null;
-	private RuntimeExceptionDao<Book, Integer> bookDao = null;
 
 	/**
 	 * @param context
@@ -34,13 +33,9 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 	}
 
-
 	@Override
 	public void onCreate(SQLiteDatabase db, ConnectionSource connectionSource) {
 		try {
-			Log.i(DatabaseHelper.class.getName(), "onCreate");
-
-			TableUtils.createTable(connectionSource, Book.class);
 			TableUtils.createTable(connectionSource, Author.class);
 		} catch (SQLException e) {
 			Log.e(DatabaseHelper.class.getName(), "Can't create database", e);
@@ -49,10 +44,9 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	}
 
 	@Override
-	public void onUpgrade(SQLiteDatabase db, ConnectionSource connectionSource, int oldVersion, int newVersion) {
+	public void onUpgrade(SQLiteDatabase db, ConnectionSource connectionSource,
+			int oldVersion, int newVersion) {
 		try {
-			Log.i(DatabaseHelper.class.getName(), "onUpgrade");
-			TableUtils.dropTable(connectionSource, Book.class, true);
 			TableUtils.dropTable(connectionSource, Author.class, true);
 
 			onCreate(db, connectionSource);
@@ -60,21 +54,6 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 			Log.e(DatabaseHelper.class.getName(), "Can't drop databases", e);
 			throw new RuntimeException(e);
 		}
-	}
-
-	/**
-	 * Returns the {@link RuntimeExceptionDao} (Database Access Object) version
-	 * of a {@link Dao} for the {@link Book} class. It will create it or just
-	 * give the cached value. RuntimeExceptionDao only through
-	 * RuntimeExceptions.
-	 * 
-	 * @return {@link RuntimeExceptionDao}
-	 */
-	public RuntimeExceptionDao<Book, Integer> getBookDao() {
-		if (bookDao == null) {
-			bookDao = getRuntimeExceptionDao(Book.class);
-		}
-		return bookDao;
 	}
 
 	/**
@@ -96,7 +75,6 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	public void close() {
 		super.close();
 		authorDao = null;
-		bookDao = null;
 	}
 
 }

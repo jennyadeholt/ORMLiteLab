@@ -26,11 +26,11 @@ public class BookStoreRepository {
 	}
 	
 	public void addBook(Book book) {
-		book.getAuthor().getBooks().add(book);
+		// TODO: Implement
 	}
 	
 	public void deleteBook(Book book) {
-		book.getAuthor().getBooks().remove(book);
+		// TODO: Implement
 	}
 
 }

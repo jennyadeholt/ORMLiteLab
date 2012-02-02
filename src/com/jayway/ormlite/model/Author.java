@@ -3,7 +3,7 @@
  */
 package com.jayway.ormlite.model;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.j256.ormlite.field.DatabaseField;
@@ -26,7 +26,6 @@ public class Author {
 	@DatabaseField(canBeNull = true)
 	private int birthday;
 	
-	private ArrayList<Book> books;
 
 	/**
 	 * Only for OrmLite deserialization
@@ -64,16 +63,16 @@ public class Author {
 		return birthday;
 	}
 
-	@Override
-	public String toString() {
-		return name;
-
-	}
-
 	/**
 	 * @return The books
 	 */
 	public List<Book> getBooks() {
-		return books;
+		//TODO: Implement for real
+		return Collections.emptyList();
+	}
+	
+	@Override
+	public String toString() {
+		return name;
 	}
 }
