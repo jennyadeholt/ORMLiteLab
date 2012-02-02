@@ -1,5 +1,7 @@
 package com.jayway.ormlite;
 
+import java.util.List;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -12,7 +14,6 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.j256.ormlite.android.apptools.OrmLiteBaseListActivity;
-import com.j256.ormlite.dao.ForeignCollection;
 import com.jayway.ormlite.model.Author;
 import com.jayway.ormlite.model.Book;
 
@@ -20,7 +21,7 @@ import com.jayway.ormlite.model.Book;
  * @author Jenny Nilsson, Jayway
  * 
  */
-public class AuthorList extends OrmLiteBaseListActivity<DatabaseHelper> {
+public class AuthorListActivity extends OrmLiteBaseListActivity<DatabaseHelper> {
 
 	private BookStoreRepository repo;
 
@@ -54,7 +55,7 @@ public class AuthorList extends OrmLiteBaseListActivity<DatabaseHelper> {
 	}
 
 	private void updateListAdapter() {
-		setListAdapter(new ArrayAdapter<Author>(AuthorList.this,
+		setListAdapter(new ArrayAdapter<Author>(AuthorListActivity.this,
 				android.R.layout.simple_list_item_1, repo.getAuthors()));
 	}
 
@@ -90,12 +91,12 @@ public class AuthorList extends OrmLiteBaseListActivity<DatabaseHelper> {
 		super.onListItemClick(l, v, position, id);
 		Author author = (Author) l.getItemAtPosition(position);
 
-		ForeignCollection<Book> books = author.getBooks();
+		List<Book> books = author.getBooks();
 
 		Toast.makeText(this, "Books : " + books.size(), Toast.LENGTH_SHORT)
 				.show();
 
-		Intent bookIntent = new Intent(getApplicationContext(), BookList.class);
+		Intent bookIntent = new Intent(getApplicationContext(), BookListActivity.class);
 		bookIntent.putExtra("id", author.getId());
 		startActivity(bookIntent);
 	}

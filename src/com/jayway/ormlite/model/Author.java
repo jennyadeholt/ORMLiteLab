@@ -3,9 +3,10 @@
  */
 package com.jayway.ormlite.model;
 
-import com.j256.ormlite.dao.ForeignCollection;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.j256.ormlite.field.DatabaseField;
-import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
 /**
@@ -25,8 +26,7 @@ public class Author {
 	@DatabaseField(canBeNull = true)
 	private int birthday;
 	
-	@ForeignCollectionField
-	private ForeignCollection<Book> books;
+	private ArrayList<Book> books;
 
 	/**
 	 * Only for OrmLite deserialization
@@ -73,7 +73,7 @@ public class Author {
 	/**
 	 * @return The books
 	 */
-	public ForeignCollection<Book> getBooks() {
+	public List<Book> getBooks() {
 		return books;
 	}
 }

@@ -20,7 +20,7 @@ import com.jayway.ormlite.model.Book;
  * @author Jenny Nilsson, Jayway
  * 
  */
-public class BookList extends OrmLiteBaseListActivity<DatabaseHelper> {
+public class BookListActivity extends OrmLiteBaseListActivity<DatabaseHelper> {
 
 	private static final int DELETE_BOOK_DIALOG = 0;
 	private Author author;

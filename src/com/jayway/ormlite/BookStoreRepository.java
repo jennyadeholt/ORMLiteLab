@@ -8,7 +8,7 @@ import com.jayway.ormlite.model.Book;
 public class BookStoreRepository {
 	
 	private final DatabaseHelper helper;
-
+	
 	public BookStoreRepository(DatabaseHelper helper) {
 		this.helper = helper;
 	}
@@ -25,16 +25,12 @@ public class BookStoreRepository {
 		helper.getAuthorDao().createIfNotExists(author);
 	}
 	
-	public List<Book> getBooks() {
-		return helper.getBookDao().queryForAll();
-	}
-	
 	public void addBook(Book book) {
-		helper.getBookDao().createIfNotExists(book);
+		book.getAuthor().getBooks().add(book);
 	}
 	
 	public void deleteBook(Book book) {
-		helper.getBookDao().delete(book);
+		book.getAuthor().getBooks().remove(book);
 	}
 
 }

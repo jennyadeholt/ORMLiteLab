@@ -1,7 +1,6 @@
 package com.jayway.ormlite;
 
 import java.sql.SQLException;
-import java.util.List;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -100,31 +99,4 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 		bookDao = null;
 	}
 
-	/**
-	 * @param book
-	 * @param author
-	 */
-	public void addBook(Book book, Author author) {
-		List<Book> books = getBookDao().queryForMatching(book);
-		book.setAuthor(author);
-
-		if (books.isEmpty()) {
-			book.setAuthor(author);
-			bookDao.create(book);
-		} else {
-			book.setAuthor(author);
-			bookDao.create(book);
-			for (Book b : books) {
-				b.setAuthor(author);
-				bookDao.update(b);
-			}
-		}
-	}
-
-	/**
-	 * @param author
-	 */
-	public void addAuthor(Author author) {
-		getAuthorDao().createOrUpdate(author);
-	}
 }
