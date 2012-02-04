@@ -22,7 +22,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
 	private static final String DATABASE_NAME = "ormlitelab.db";
 	private static final int DATABASE_VERSION = 1;
-	
+
 	private RuntimeExceptionDao<Author, Integer> authorDao = null;
 
 	/**
@@ -47,13 +47,20 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	public void onUpgrade(SQLiteDatabase db, ConnectionSource connectionSource,
 			int oldVersion, int newVersion) {
 		try {
+			// We'll take the easy approach and just drop the old table and
+			// re-create it.
 			TableUtils.dropTable(connectionSource, Author.class, true);
-
 			onCreate(db, connectionSource);
 		} catch (SQLException e) {
 			Log.e(DatabaseHelper.class.getName(), "Can't drop databases", e);
 			throw new RuntimeException(e);
 		}
+	}
+
+	@Override
+	public void close() {
+		super.close();
+		authorDao = null;
 	}
 
 	/**
@@ -71,10 +78,5 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 		return authorDao;
 	}
 
-	@Override
-	public void close() {
-		super.close();
-		authorDao = null;
-	}
 
 }

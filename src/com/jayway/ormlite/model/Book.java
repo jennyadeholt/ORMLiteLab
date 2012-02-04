@@ -1,6 +1,7 @@
 package com.jayway.ormlite.model;
 
 
+
 /**
  * @author Jenny Nilsson, Jayway
  * 

@@ -7,14 +7,12 @@ import java.util.Collections;
 import java.util.List;
 
 import com.j256.ormlite.field.DatabaseField;
-import com.j256.ormlite.table.DatabaseTable;
 
 /**
  * @author Jenny Nilsson, Jayway
  *
  */
 
-@DatabaseTable(tableName = "author")
 public class Author {
 
 	@DatabaseField(generatedId=true)
@@ -24,7 +22,7 @@ public class Author {
 	private String name;
 	
 	@DatabaseField(canBeNull = true)
-	private int birthday;
+	private int birthyear;
 	
 
 	/**
@@ -59,8 +57,8 @@ public class Author {
 	/**
 	 * @return The birtday
 	 */
-	public int getBirthday() {
-		return birthday;
+	public int getBirthYear() {
+		return birthyear;
 	}
 
 	/**
