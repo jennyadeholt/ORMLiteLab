@@ -24,6 +24,7 @@ public class Author {
 	@DatabaseField(canBeNull = true)
 	private int birthyear;
 	
+	
 
 	/**
 	 * Only for OrmLite deserialization
